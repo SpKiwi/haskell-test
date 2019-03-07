@@ -100,10 +100,6 @@ anotherLength :: [a] -> Int
 anotherLength [] = 0
 anotherLength (_:xs) = 1 + anotherLength xs
 
-mySum :: (Num a) => [a] -> a
-mySum [] = 0
-mySum (x:xs) = x + mySum xs
-
 bmi :: (Ord a, Fractional a) => a -> a -> String
 bmi height weight
 	| bmi <= skinny = "Skinny"
@@ -142,6 +138,43 @@ sameWord (x:xs) = [x] ++ (sameWord xs)
 newBmi :: (Fractional a) => [(a, a)] -> [a]
 newBmi bmis = [bmi weight height | (weight, height) <- bmis]
 	where bmi weight height = weight / height ^ 2
+
+rectangleArea :: (Num a) => a -> a -> a
+rectangleArea w h =
+	let 
+		width = w
+		height = h
+	in
+		width * height
+
+anotherBmi :: (Fractional a, Ord a) => [(a, a)] -> [a]
+anotherBmi bmis = [bmi | (weight, height) <- bmis, let bmi = (weight / height ^ 2), bmi >= 25.0]
+
+
+mySum :: (Num a) => [a] -> a
+mySum [] = 0
+mySum (x:xs) = x + mySum xs
+
+caseSum :: (Num a) => [a] -> a
+caseSum (x:xs) = case x:xs of 
+	[] -> 0
+	x:[] -> x
+	x:xs -> x + caseSum xs
+
+betterCaseSum :: (Num a) => [a] -> a
+betterCaseSum list = case list of 
+	[] -> 0
+	x:xs -> x + caseSum xs
+
+caseHead :: [a] -> a
+caseHead list = case list of
+	[] -> error "Empty list, no heads here!"
+	(x:_) -> x
+
+
+
+
+
 
 
 

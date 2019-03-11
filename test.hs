@@ -215,7 +215,46 @@ quickSort (x:xs) =
 	in 
 		smallerSorted ++ [x] ++ biggerSorted
 
+-- note haskell functions work like this
+-- so it can be called like: ((multThree 2) 3) 2
+multThree :: (Num a) => a -> (a -> (a -> a))
+multThree x y z = x * y * z  
 
+multTwoWithNine = multThree 9 
 
+compareWithHundred :: (Num a, Ord a) => a -> Ordering
+compareWithHundred = compare 100
 
+divideByTen :: (Floating a) => a -> a
+divideByTen = (/10)
+
+-- note infix function
+isUpperCase :: Char -> Bool
+isUpperCase = (`elem` ['A'..'Z'])
+
+sumOfThree a b c = a + b + c
+sumOfTwoAndTwoOther = sumOfThree 2
+
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+
+applyNTimes :: (Integral a) => a -> (b -> b) -> b -> b
+applyNTimes n f x
+	| n == 1 = f x
+	| otherwise = f (applyNTimes (n - 1) f x)
+
+myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
+myZipWith _ [] _ = []
+myZipWith _ _ [] = []
+myZipWith zipper (x:xs) (y:ys) = zipper x y:myZipWith zipper xs ys
+
+myFlip :: (a -> b -> c) -> (b -> a -> c)
+myFlip f x y = f y x
+
+printFirst :: (Show a) => a -> a -> String
+printFirst a b = show a
+
+-- show (flip (printFirst "lol" "pidr"))
+-- show (printFirst "lol" "pidr")
+-- zipWith (flip div) [2,2..] [10,8,6]
 

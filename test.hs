@@ -171,10 +171,49 @@ caseHead list = case list of
 	[] -> error "Empty list, no heads here!"
 	(x:_) -> x
 
+maxRecursion :: (Num a, Ord a) => [a] -> a
+maxRecursion [] = error "empty list lol"
+maxRecursion [x] = x
+maxRecursion (x:xs) = max x (maxRecursion xs)
 
+-- todo comment to myself why cant Int be used instead of Integral
+myReplicate :: (Integral a, Ord a) => a -> b -> [b]
+myReplicate n x
+	| n <= 0 = []
+	| otherwise = x:myReplicate (n - 1) x
 
+myTake :: (Integral a, Ord a) => a -> [b] -> [b]
+myTake n _
+	| n <= 0 = []
+myTake _ [] = []
+myTake n (x:xs) = x:myTake (n - 1) xs
 
+myReverse :: [a] -> [a]
+myReverse [] = []
+myReverse (x:xs) = myReverse xs ++ [x]
 
+myRepeat :: a -> [a]
+myRepeat x = x:myRepeat x
+
+myZip :: [a] -> [b] -> [(a, b)]
+myZip _ [] = []
+myZip [] _ = []
+myZip (x:xs) (y:ys) = (x, y):myZip xs ys
+
+myElem :: (Eq a) => a -> [a] -> Bool
+myElem _ [] = False
+myElem x (y:ys) = if x == y
+	then True
+	else myElem x ys
+
+quickSort :: (Ord a) => [a] -> [a]
+quickSort [] = []
+quickSort (x:xs) =
+	let
+		smallerSorted = quickSort [a | a <- xs, a <= x]
+		biggerSorted = quickSort [a | a <- xs, a > x]
+	in 
+		smallerSorted ++ [x] ++ biggerSorted
 
 
 

@@ -210,8 +210,8 @@ quickSort :: (Ord a) => [a] -> [a]
 quickSort [] = []
 quickSort (x:xs) =
 	let
-		smallerSorted = quickSort [a | a <- xs, a <= x]
-		biggerSorted = quickSort [a | a <- xs, a > x]
+		smallerSorted = quickSort (filter (<=x) xs)
+		biggerSorted = quickSort (filter (>x) xs)
 	in 
 		smallerSorted ++ [x] ++ biggerSorted
 
@@ -257,4 +257,33 @@ printFirst a b = show a
 -- show (flip (printFirst "lol" "pidr"))
 -- show (printFirst "lol" "pidr")
 -- zipWith (flip div) [2,2..] [10,8,6]
+
+myMap :: (a -> b) -> [a] -> [b]
+myMap _ [] = []
+myMap f (x:xs) = f x:myMap f xs
+
+trueMap :: [a] -> [Int]
+trueMap = map meinCampf
+	where meinCampf a = 1488
+
+myFilter :: (a -> Bool) -> [a] -> [a]
+myFilter _ [] = []
+myFilter f (x:xs)
+	| f x = x:myFilter f xs
+	| otherwise = myFilter f xs
+
+-- todo finish this with filter
+largestDivider :: (Integral a) => [a] -> a -> a
+largestDivider numbers divider = listMax (filter )
+-- largestDivider numbers divider = listMax [number | number <- numbers, isDivisable number divider]
+		
+listMax :: (Ord a) => [a] -> a		
+listMax [] = error "empty list"
+listMax [y] = y
+listMax (y:ys) = max y (listMax ys)
+
+isDivisable :: (Integral a) => a -> a -> Bool
+isDivisable number divider = number `rem` divider == 0
+
+-- Next up, we're going to find the sum of all odd squares that are smaller than 10,000
 

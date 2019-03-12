@@ -277,8 +277,8 @@ largestDivider :: (Integral a) => [a] -> a -> a
 largestDivider numbers divider = listMax [number | number <- numbers, isDivisible number divider]
 
 -- not working
-largestDivider :: (Integral a) => [a] -> a -> a
-largestDivider numbers divider = listMax (filter (isDivisible divider) numbers)
+-- largestDivider :: (Integral a) => [a] -> a -> a
+-- largestDivider numbers divider = listMax (filter (isDivisible divider) numbers)
 
 isDivisible :: (Integral a) => a -> a -> Bool
 isDivisible number divider = number `rem` divider == 0
@@ -288,6 +288,8 @@ listMax [] = error "empty list"
 listMax [y] = y
 listMax (y:ys) = max y (listMax ys)
 
+-- sum (takeWhile (<10000) [x^2 | x <- [1..], odd (x^2)])
+-- sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
 
--- Next up, we're going to find the sum of all odd squares that are smaller than 10,000
+-- For our next problem, we'll be dealing with Collatz sequences
 

@@ -272,13 +272,13 @@ myFilter f (x:xs)
 	| f x = x:myFilter f xs
 	| otherwise = myFilter f xs
 
--- todo finish this with filter
-largestDivider :: (Integral a) => [a] -> a -> a
-largestDivider numbers divider = listMax [number | number <- numbers, isDivisible number divider]
-
--- not working
+-- with list comprehension
 -- largestDivider :: (Integral a) => [a] -> a -> a
--- largestDivider numbers divider = listMax (filter (isDivisible divider) numbers)
+-- largestDivider numbers divider = listMax [number | number <- numbers, isDivisible number divider]
+
+-- with filter
+largestDivider :: (Integral a) => [a] -> a -> a
+largestDivider numbers divider = listMax (filter (`isDivisible` divider) numbers)
 
 isDivisible :: (Integral a) => a -> a -> Bool
 isDivisible number divider = number `rem` divider == 0
@@ -293,3 +293,12 @@ listMax (y:ys) = max y (listMax ys)
 
 -- For our next problem, we'll be dealing with Collatz sequences
 
+chain :: (Integral a) => a -> [a]
+chain 1 = [1]
+chain x
+	| odd x = x:chain (x*3 + 1)
+	| otherwise = x:chain (x `div` 2)
+
+-- length (filter (>15) (map length (map chain [1..100])))
+-- length (filter (>15) (map chain [1..100]))  
+-- ((map (*) [3,4]) !! 0) 4

@@ -274,16 +274,20 @@ myFilter f (x:xs)
 
 -- todo finish this with filter
 largestDivider :: (Integral a) => [a] -> a -> a
-largestDivider numbers divider = listMax (filter )
--- largestDivider numbers divider = listMax [number | number <- numbers, isDivisable number divider]
+largestDivider numbers divider = listMax [number | number <- numbers, isDivisible number divider]
+
+-- not working
+largestDivider :: (Integral a) => [a] -> a -> a
+largestDivider numbers divider = listMax (filter (isDivisible divider) numbers)
+
+isDivisible :: (Integral a) => a -> a -> Bool
+isDivisible number divider = number `rem` divider == 0
 		
 listMax :: (Ord a) => [a] -> a		
 listMax [] = error "empty list"
 listMax [y] = y
 listMax (y:ys) = max y (listMax ys)
 
-isDivisable :: (Integral a) => a -> a -> Bool
-isDivisable number divider = number `rem` divider == 0
 
 -- Next up, we're going to find the sum of all odd squares that are smaller than 10,000
 

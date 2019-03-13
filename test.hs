@@ -302,3 +302,17 @@ chain x
 -- length (filter (>15) (map length (map chain [1..100])))
 -- length (filter (>15) (map chain [1..100]))  
 -- ((map (*) [3,4]) !! 0) 4
+
+rxZip :: (a -> b -> c) -> [a] -> [b] -> [c]
+rxZip _ [] _ = []
+rxZip _ _ [] = []
+rxZip f (x:xs) (y:ys) = f x y:rxZip f xs ys
+
+anotherFlip :: (a -> b -> c) -> (b -> a -> c)
+anotherFlip f = \a b -> f b a
+
+sumf :: (Num a) => [a] -> a
+sumf = foldl (+) 0
+
+-- Anyhoo, let's implement another function with a left fold before moving on to right folds
+

@@ -316,3 +316,37 @@ sumf = foldl (+) 0
 
 -- Anyhoo, let's implement another function with a left fold before moving on to right folds
 
+elemf :: (Eq a) => a -> [a] -> Bool
+elemf x = foldl (\acc y -> if (y == x) then True else acc) False
+
+mapf :: (a -> b) -> [a] -> [b]
+mapf f = foldr (\x acc -> f x:acc) []
+
+mapfl :: (a -> b) -> [a] -> [b]
+mapfl f = foldl (\acc x -> acc ++ [f x]) []
+
+maxf :: (Ord a) => [a] -> a
+maxf [] = error "empty list"
+maxf xs = foldr1 (\x acc -> if (acc > x) then acc else x) xs
+
+reversef :: [a] -> [a]
+reversef = foldl (\acc x -> x:acc) []
+
+reverseff :: [a] -> [a]
+reverseff = foldl (flip (:)) []
+
+filterf :: (a -> Bool) -> [a] -> [a]
+filterf f = foldr (\x acc -> if (f x) then x:acc else acc) [] 
+
+headf :: [a] -> a
+headf = foldr1 (\x _ -> x)
+
+lastf :: [a] -> a
+lastf = foldl1 (\_ x -> x)
+
+sqrtSum :: Int
+sqrtSum = length (takeWhile(<1000) (scanl1 (+) (map sqrt [1..]))) + 1
+
+-- sum $ filter (> 10) $ map (*2) [2..10]
+
+

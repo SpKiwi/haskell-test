@@ -349,4 +349,40 @@ sqrtSum = length (takeWhile(<1000) (scanl1 (+) (map sqrt [1..]))) + 1
 
 -- sum $ filter (> 10) $ map (*2) [2..10]
 
+-- map (\x -> negate (abs x)) [1,-1,2,3,0,-3]
+-- map (negate . abs) [1,-1,2,3,0,-3]
+-- sum (replicate 5 (max 6.7 8.9))
+-- (sum . replicate 5 . max 6.7) 8.9
+
+-- replicate 100 (product (map (*3) (zipWith max [1,2,3,4,5] [4,5,6,7,8])))
+-- replicate 100 . product . map (*3) . zipWith max [1,2,3,4,5] $ [4,5,6,7,8]
+
+-- replicate 100 $ product . map (*3) $ zipWith max [1,2,3,4,5] [4,5,6,7,8]
+
+-- works
+testf x = sum (replicate 1488 (max 1488 x))
+
+-- works as well
+testf1 = sum . replicate 1488 . max 1488
+
+-- not working
+-- testf2 x = sum . replicate 1488 (max 1488 x)
+
+-- works
+somef x = tan (cos x)
+
+-- works
+somef1 = tan . cos
+
+-- works
+somef2 x = (tan . cos) x
+
+-- rewrite to composition
+sumComp = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+-- composition
+sumComp1 = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+
+
+
 

@@ -1,4 +1,5 @@
 import Data.List
+import Data.Char
 import Data.Function (on)
 
 numUnique :: (Eq a) => [a] -> Int
@@ -30,9 +31,44 @@ xst = [[5,4,5,4,4],[1,2,3],[3,5,4,3],[],[2],[2,2]]
 sortt =   sortBy (\x y -> compare (length x) (length y)) xst
 sortton = sortBy (compare `on` length) xst
 
+-- wordst xs = filter (\x -> not (any isSpace x)) (groupBy ((==) `on` isSpace) xs)
+wordst xs = filter (not . any isSpace) (groupBy ((==) `on` isSpace) xs)
 
 
+-- map generalCategory '1'
 
+encode :: Int -> String -> String
+encode _ [] = []
+encode shift (x:xs) = chr ((ord x) + shift):encode shift xs
+
+encode1 :: Int -> String -> String
+encode1 shift msg = map chr (map (\ch -> (ord ch) + shift) msg)
+
+encode2 :: Int -> String -> String
+encode2 shift = map chr . map (\ch -> (ord ch) + shift)
+
+decode :: Int -> String -> String
+decode shift = encode (negate shift)
+
+phoneBook =   
+    [("betty","555-2938")  
+    ,("bonnie","452-2928")  
+    ,("patsy","493-2928")  
+    ,("lucille","205-2928")  
+    ,("wendy","939-8282")  
+    ,("penny","853-2492")  
+    ]  
+
+findKey :: (Eq k) => k -> [(k, v)] -> v
+findKey key = snd . head . filter (\(k, v) -> k == key)
+
+findKeySafe :: (Eq k) => k -> [(k, v)] -> Maybe v
+findKeySafe _ [] = Nothing
+findKeySafe key ((k, v):xs) = if (k == key)
+	then Just v
+	else findKeySafe key xs
+
+-- This is a textbook recursive function that operates on a list
 
 
 

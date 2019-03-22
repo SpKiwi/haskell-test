@@ -8,6 +8,7 @@ module G
 
 import qualified Data.Map as Map
 import Data.Maybe (fromJust)
+import Data.List (find)
 
 data Point = Point Float Float deriving (Show)
 data Shape = Circle Point Float | Rectangle Point Point deriving (Show)
@@ -144,7 +145,75 @@ treeElem x (Node y left right)
 -- foldl treeInsert EmptyTree [1,2,3,4,5,6,8]
 numsTree = foldr insertTree EmptyTree [1,2,3,4,5,6,8]
 
--- Typeclasses 102
+class Eqm a where
+	($==) :: a -> a -> Bool
+	($/=) :: a -> a -> Bool
+	x $== y = not (x $/= y)
+	x $/= y = not (x $== y)
+
+data Light = Red | Yellow | Green
+
+instance Eqm Light where
+	Red $== Red = True
+	Yellow $== Yellow = True 
+	Green $== Green = True 
+	_ $== _ = False
+
+instance Show Light where
+	show Red = "Red Light"
+	show Yellow = "Yellow Light"
+	show Green = "Green Light"
+
+instance (Eqm a) => Eqm (Maybe a) where  
+    Just x $== Just y = x $== y  
+    Nothing $== Nothing = True  
+    _ $== _ = False  
+
+data Human = Man | Woman deriving (Eq)
+
+class Showm a where
+	showm :: a -> String
+
+instance Showm Human where
+	showm Man = show "maaan"
+	showm Woman = show "woman"
+
+instance (Showm a) => Showm (Maybe a) where
+	showm Nothing = show "noooon"
+	showm (Just x) = showm x
+
+class YesNo a where
+	yesno :: a -> Bool
+
+instance YesNo Int where
+	yesno 0 = False
+	yesno _ = True
+
+instance YesNo [a] where
+	yesno [] = False
+	yesno _ = True
+
+instance YesNo Bool where
+	yesno = id
+
+instance YesNo (Maybe a) where
+	yesno Nothing = False
+	yesno _ = True
+
+yesNoIf :: (YesNo a) => a -> b -> b -> b
+yesNoIf yesNoVal yesRes noRes = if (yesno yesNoVal) then yesRes else noRes
+
+-- The Functor typeclass
+
+
+
+
+
+
+
+
+
+
 
 
 

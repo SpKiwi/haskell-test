@@ -123,7 +123,17 @@ infixr 5 $$
 Empty $$ ys = ys
 (x :-: xs) $$ ys = x :-: (xs $$ ys)
 
-data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq) 
+data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
+instance Functor Tree where
+	fmap _ EmptyTree = EmptyTree
+	fmap f (Node a left right) = Node (f a) (fmap f left) (fmap f right)
+
+class Functorm f where
+	fmapm :: (a -> b) -> f a -> f b
+
+instance Functorm (Either a) where  
+    fmapm f (Right x) = Right (f x)  
+    fmapm f (Left y) = Left y  
 
 singleton :: a -> Tree a
 singleton x = Node x EmptyTree EmptyTree
@@ -203,9 +213,12 @@ instance YesNo (Maybe a) where
 yesNoIf :: (YesNo a) => a -> b -> b -> b
 yesNoIf yesNoVal yesRes noRes = if (yesno yesNoVal) then yesRes else noRes
 
--- The Functor typeclass
+class Tofu t where
+	tofu :: j a -> t a j
 
-
+data Frank el container = Frank { 
+	frankField :: container el 
+} deriving (Show)
 
 
 
